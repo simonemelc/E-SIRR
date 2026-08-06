@@ -13,7 +13,7 @@ Code will be realeased soon.
 ---
 
 <p align="center">
-  <img src="teaser.pdf" alt="A dual-camera system captures an RGB mixture along with a synchronized
+  <img src="teaser_esirr.png" alt="A dual-camera system captures an RGB mixture along with a synchronized
 event stream that exclusively map the dynamic reflections. Our framework is able to
 remove reflection artifacts while preserving the content of the background" width="100%">
 </p>
