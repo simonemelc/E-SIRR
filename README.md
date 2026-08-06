@@ -6,7 +6,7 @@ Code will be realeased soon.
 
 
 
-[![Conference](https://img.shields.io/badge/Conference-EBMV@ECCV_2026-red)](https://eventbasemultimodalvision.github.io/)
+[![Conference](https://img.shields.io/badge/Conference-EBMV@ECCV_2026-orange)](https://eventbasemultimodalvision.github.io/)
 [![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 [![Framework](https://img.shields.io/badge/Framework-PyTorch-red)](https://pytorch.org/)
 
