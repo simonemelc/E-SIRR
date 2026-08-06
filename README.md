@@ -1,2 +1,2 @@
 # E-SIRR
-Event-guided Dynamic Reflection Removal from RGB
+Event-Guided Dynamic Reflection Removal from RGB
