@@ -54,7 +54,7 @@ $$\mathcal{L}_{total} = \mathcal{L}_R(\hat{R}, R) + \mathcal{L}_T(\hat{T}, T) + 
 ---
 
 ## Dataset Preparation
-
+ <!-- TODO
 Training requires triplets of mixture $M$, event voxel grid $V$, and ground-truth transmission/reflection layers $T$, $R$. The model is trained on a **large-scale synthetic dataset** built from COCO and evaluated both cross-dataset on **SIR²⁺** and on a **real-world event-camera benchmark (ER-100)** collected by the authors.
 
 ### 1. Download / Build Data
@@ -71,7 +71,7 @@ Training requires triplets of mixture $M$, event voxel grid $V$, and ground-trut
 
 4. **ER-100 (real-world dataset, DAVIS346 event camera):**
    Captured by the authors (346×260 px, 5 scenes, 138 multimodal testing samples) as a preliminary real-world benchmark.
-   <!-- TODO: aggiungi qui il link di download (Drive/HF/repo release) una volta che ER-100 è pubblicato. -->
+   <!-- TODO: aggiungi qui il link di download (Drive/HF/repo release) una volta che ER-100 è pubblicato
 
 ### 2. Synthetic Data Generation Pipeline
 
@@ -86,7 +86,7 @@ Total dataset size: 9,418 samples (80:20 train/validation split).
 
 ### 3. Folder Structure
 
-<!-- TODO: non ho ancora visto i file dataset/*.py per questo progetto — la struttura seguente è indicativa, aggiornala una volta che mi mandi il dataset loader reale (nomi cartelle, formato file per M, V, T, R). -->
+<!-- TODO: non ho ancora visto i file dataset/*.py per questo progetto — la struttura seguente è indicativa, aggiornala una volta che mi mandi il dataset loader reale (nomi cartelle, formato file per M, V, T, R)
 
 ```text
 /path/to/your/data/
@@ -140,7 +140,7 @@ pip install -r requirements.txt
     └── best_model.pth
 ```
 
-<!-- TODO: aggiungi il link Google Drive/HF con i pesi pretrained. -->
+<!-- TODO: aggiungi il link Google Drive/HF con i pesi pretrained
 
 ---
 
@@ -190,7 +190,7 @@ python test.py \
   --device 0
 ```
 
-<!-- TODO: non ho ancora visto train.py / test.py / il modello per questo progetto — argomenti e nomi script sono un template plausibile basato sui componenti descritti nel paper (voxel bins, crop size, pesi delle loss) e sullo stile dei tuoi altri repo. Mandameli e li sostituisco con quelli reali. -->
+<!-- TODO: non ho ancora visto train.py / test.py / il modello per questo progetto — argomenti e nomi script sono un template plausibile basato sui componenti descritti nel paper (voxel bins, crop size, pesi delle loss) e sullo stile dei tuoi altri repo. Mandameli e li sostituisco con quelli reali
 
 ---
 
