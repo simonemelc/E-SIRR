@@ -26,7 +26,7 @@ remove reflection artifacts while preserving the content of the background" widt
 ## The Framework
 
 <p align="center">
-  <img src="figures/ESIRR_pipeline.png" alt="Framework Overview" width="100%">
+  <img src="ESIRR_pipeline.png" alt="Framework Overview" width="100%">
 </p>
 
 Single-image reflection removal is inherently ill-posed: the same mixture image $M$ is consistent with infinite valid (transmission, reflection) pairs. **E-SIRR** resolves this ambiguity with an auxiliary **event camera**, exploiting the assumption of a **static background and a moving reflection**: under this constraint, the asynchronous event stream exclusively captures the high-frequency edges of the moving reflection layer, giving the network an explicit structural cue.
