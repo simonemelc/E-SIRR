@@ -55,7 +55,7 @@ $$\mathcal{L}_{total} = \mathcal{L}_R(\hat{R}, R) + \mathcal{L}_T(\hat{T}, T) + 
 Training requires triplets of mixture $M$, event voxel grid $V$, and ground-truth transmission/reflection layers $T$, $R$. The model is trained on a **large-scale synthetic dataset** built from COCO and evaluated both cross-dataset on **SIR²⁺** and on a **real-world event-camera benchmark (ER-100)** collected by the authors.
 
 ### 1. Dataset Generation Pipeline / Synthetic
-The synthetic datasets are generated offline by blending RGB frames from the **COCO Dataset** (official dataset page: [https://cocodataset.org/](https://cocodataset.org/)) and simulating the event streams via DVS-Voltmeter (official repository: [https://github.com/Lynn0306/DVS-Voltmeter](https://github.com/Lynn0306/DVS-Voltmeter))
+The synthetic datasets are generated offline by blending RGB frames from the **COCO Dataset** (official dataset page: [https://cocodataset.org/](https://cocodataset.org/)) and simulating the event streams via **DVS-Voltmeter** (official repository: [https://github.com/Lynn0306/DVS-Voltmeter](https://github.com/Lynn0306/DVS-Voltmeter))
 Run the generation script to create synthetic reflections moving along smooth 2D cubic-spline trajectories, with applied Gaussian blur to simulate defocus
 
 ```bash
