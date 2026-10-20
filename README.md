@@ -54,59 +54,41 @@ $$\mathcal{L}_{total} = \mathcal{L}_R(\hat{R}, R) + \mathcal{L}_T(\hat{T}, T) + 
 ---
 
 ## Dataset Preparation
- <!-- TODO
 Training requires triplets of mixture $M$, event voxel grid $V$, and ground-truth transmission/reflection layers $T$, $R$. The model is trained on a **large-scale synthetic dataset** built from COCO and evaluated both cross-dataset on **SIR²⁺** and on a **real-world event-camera benchmark (ER-100)** collected by the authors.
 
-### 1. Download / Build Data
+### 1. Dataset Generation Pipeline / Synthetic
+The synthetic datasets are generated offline by blending RGB frames from the **COCO Dataset** (official dataset page: [https://cocodataset.org/](https://cocodataset.org/)) and simulating the event streams via DVS-Voltmeter (official repository: [https://github.com/Lynn0306/DVS-Voltmeter](https://github.com/Lynn0306/DVS-Voltmeter))
+Run the generation script to create synthetic reflections moving along smooth 2D cubic-spline trajectories, with applied Gaussian blur to simulate defocus
 
-1. **COCO Dataset (source images for synthetic background/reflection pairs):**
-   Official dataset page: [https://cocodataset.org/](https://cocodataset.org/)
+```bash
+python generate_training_dataset_COCO.py
+```
 
-2. **DVS-Voltmeter (event stream simulator):**
-   Used to simulate the synchronized event stream from the synthesized mixture frame sequence — official repository: [https://github.com/Lynn0306/DVS-Voltmeter](https://github.com/Lynn0306/DVS-Voltmeter)
+### 2. Cross-Dataset Evaluation (SIR²⁺)
+Run the following script to extend SIR2+ dataset with simulated event stream. Also mixture images are simulated. This dataset is used for testing on synthetic data.
 
-3. **SIR²⁺ Dataset (cross-dataset zero-shot evaluation, real RGB with T/R ground truth):**
-   Official request page (ROSE Lab, NTU): [https://rose1.ntu.edu.sg/dataset/sir2Benchmark/](https://rose1.ntu.edu.sg/dataset/sir2Benchmark/)
-   Only the subset with both transmission and reflection ground truth is used, since event simulation requires the reflection layer; events are simulated as for the synthetic set but **without** the Gaussian blur (SIR²⁺ reflections are already naturally blurred).
+```bash
+python generate_testing_dataset_SIR2+.py
+```
 
-4. **ER-100 (real-world dataset, DAVIS346 event camera):**
-   Captured by the authors (346×260 px, 5 scenes, 138 multimodal testing samples) as a preliminary real-world benchmark.
-   <!-- TODO: aggiungi qui il link di download (Drive/HF/repo release) una volta che ER-100 è pubblicato
 
-### 2. Synthetic Data Generation Pipeline
+## Folder Structure
 
-The synthetic dataset is generated on the fly / offline from COCO image pairs following the paper's protocol:
-1. Sample two random COCO images as background $T$ and reflection $R$.
-2. Apply a random Gaussian blur to the reflection: $R_G = G(R;\sigma)$, $\sigma \in [1.1, 3.0]$.
-3. Animate $R_G$ over $K$ frames along a smooth 2D cubic-spline trajectory (static background).
-4. Blend each frame via non-linear screen blending: $M^{(i)} = \alpha T + \beta R_G^{(i)} - \alpha T \cdot \beta R_G^{(i)}$, with $\alpha \in [0.70, 0.85]$, $\beta \in [0.35, 0.60]$.
-5. Feed the frame sequence to DVS-Voltmeter to simulate events, then accumulate them in a symmetric ±16 ms window around the midpoint frame and convert to a $B{=}5$-bin voxel grid.
-
-Total dataset size: 9,418 samples (80:20 train/validation split).
-
-### 3. Folder Structure
-
-<!-- TODO: non ho ancora visto i file dataset/*.py per questo progetto — la struttura seguente è indicativa, aggiornala una volta che mi mandi il dataset loader reale (nomi cartelle, formato file per M, V, T, R)
+The dataloaders expect the generated datasets to follow a nested directory structure where each sample has its own folder containing all modalities:
 
 ```text
-/path/to/your/data/
+/path/to/dataset_root/
 │
-├── synthetic/                  # Generated from COCO via the pipeline above
-│   ├── mixture/                # M
-│   ├── voxel/                  # V (.npy)
-│   ├── transmission/           # T (ground truth)
-│   └── reflection/             # R (ground truth)
+├── coco_coco_000000/
+│   ├── coco_coco_000000_I_mixed.jpg    # M (Mixture input)
+│   ├── coco_coco_000000_T_gt.jpg       # T (Transmission ground truth)
+│   ├── coco_coco_000000_R_warped.jpg   # R (Reflection ground truth)
+│   ├── coco_coco_000000_E_voxel.npy    # V (Event voxel grid, 5 bins)
+│   ├── coco_coco_000000_E_sum.png      # Visualization of accumulated events
+│   └── coco_coco_000000_meta.txt       # Generation parameters
 │
-├── sir2plus/                   # SIR²⁺ subset with T/R ground truth (cross-dataset eval)
-│   ├── mixture/
-│   ├── voxel/                  # simulated, no Gaussian blur
-│   ├── transmission/
-│   └── reflection/
-│
-└── er100/                      # Real-world DAVIS346 benchmark
-    ├── mixture/                # grayscale APS frames
-    ├── events/                 # native asynchronous event streams / voxel grids
-    └── target/                 # clean static ground-truth frame
+├── coco_coco_000001/
+...
 ```
 
 ---
@@ -123,74 +105,66 @@ cd E-SIRR
 2. **Create and activate the environment**
 
 ```bash
-conda create -n esirr python=3.9 -y
+conda create -n esirr python=3.10 -y
 conda activate esirr
 ```
 
 3. **Install dependencies**
 
 ```bash
+conda install pytorch torchvision torchaudio pytorch-cuda=12.4 -c pytorch -c nvidia
 pip install -r requirements.txt
 ```
+If you plan to generate new synthetic data from scratch, clone and setup DVS-Voltmeter following their official instructions.
 
 4. **Download our pretrained model**
 
-```bash
-└── checkpoints/
-    └── best_model.pth
-```
+We provide pre-trained models and the real-world E-SIRR dataset (with both raw event stream and already processed data into voxel grids). 
 
-<!-- TODO: aggiungi il link Google Drive/HF con i pesi pretrained
+*   **Pre-trained Checkpoints:** [Download from Google Drive (https://drive.google.com/drive/folders/1dhmRONzg__mRf-sXMtJpC-6jQ6-J_Gd3?usp=sharing)]
+*   **ER-100 (Real-World Benchmark):** [Download from Google Drive (https://drive.google.com/drive/folders/120DMutAfjfOBnrXHZoiqugadrrg2xkgP?usp=drive_link)]
+
+Once downloaded, place the checkpoints in the `./checkpoints/` directory and extract the datasets into your `./data/` folder following the structure detailed above.
 
 ---
 
 ## Usage
 
 ### Training
+To train the E-SIRR model end-to-end on the generated synthetic COCO dataset:
 
 ```bash
 python train.py \
-  --root_mixture ./data/synthetic/mixture \
-  --root_voxel ./data/synthetic/voxel \
-  --root_transmission ./data/synthetic/transmission \
-  --root_reflection ./data/synthetic/reflection \
-  --batch_size 4 \
+  --dataset_root ./data/synthetic/dvs \
+  --output_dir ./outputs/train \
   --epochs 200 \
+  --batch_size 4 \
   --lr 1e-4 \
-  --voxel_bins 5 \
-  --crop_size 320 \
-  --w_perc 0.1 \
-  --w_excl 0.02 \
-  --device 0
+  --base 48 \
+  --ch_cap 192 \
 ```
+Note: Use the --gray flag if you want to train the model in pseudo-grayscale mode for direct compatibility with native grayscale sensors.
 
 ### Evaluation
 
 Cross-dataset zero-shot evaluation on SIR²⁺:
 
 ```bash
-python test.py \
-  --ckpt ./checkpoints/best_model.pth \
-  --root_mixture ./data/sir2plus/mixture \
-  --root_voxel ./data/sir2plus/voxel \
-  --root_target ./data/sir2plus/transmission \
-  --metrics psnr ssim lpips \
-  --device 0
+python test_SIR2+.py \
+  --data_root ./data/synthetic_SIR2/dvs \
+  --checkpoint ./checkpoints/best_model.pth \
+  --dataset_type sir2plus \
+  --save_root ./resultsSIR2+ \
 ```
 
 Real-world evaluation on ER-100:
 
 ```bash
-python test.py \
-  --ckpt ./checkpoints/best_model.pth \
-  --root_mixture ./data/er100/mixture \
-  --root_voxel ./data/er100/events \
-  --root_target ./data/er100/target \
-  --metrics psnr ssim lpips \
-  --device 0
+python test_RealDVS.py \
+  --data_root ./data/ER-100/processed \
+  --checkpoint ./checkpoints/best_model.pth \
+  --save_root ./resultsRealDVS \
 ```
-
-<!-- TODO: non ho ancora visto train.py / test.py / il modello per questo progetto — argomenti e nomi script sono un template plausibile basato sui componenti descritti nel paper (voxel bins, crop size, pesi delle loss) e sullo stile dei tuoi altri repo. Mandameli e li sostituisco con quelli reali
 
 ---
 
@@ -200,11 +174,9 @@ If you find this work useful, please cite:
 
 ```bibtex
 @inproceedings{melcarne2026dynamic,
-  author       = {Melcarne, Simone and Husseini, Sahar and Dugelay, Jean-Luc},
-  title        = {Dynamic Reflection Removal from {RGB} Images via Event-Guided Multimodal Approach},
-  booktitle    = {Proceedings of the European Conference on Computer Vision (ECCV)},
-  year         = {2026}
+  title={Dynamic Reflection Removal from RGB Images via Event-Guided Multimodal Approach},
+  author={Melcarne, Simone and Husseini, Sahar and Dugelay, Jean-Luc},
+  booktitle={ECCV 2026 Workshop-Event-Based Multimodal Vision: From Imaging to Perception and Understanding}
 }
 ```
 
-<!-- TODO: aggiorna il BibTeX con i dati definitivi (pagine, DOI) non appena disponibili negli atti della conferenza. -->
