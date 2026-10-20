@@ -31,9 +31,7 @@ remove reflection artifacts while preserving the content of the background" widt
 
 Single-image reflection removal is inherently ill-posed: the same mixture image $M$ is consistent with infinite valid (transmission, reflection) pairs. **E-SIRR** resolves this ambiguity with an auxiliary **event camera**, exploiting the assumption of a **static background and a moving reflection**: under this constraint, the asynchronous event stream exclusively captures the high-frequency edges of the moving reflection layer, giving the network an explicit structural cue.
 
-The task is formulated as a two-stage estimation problem: given a mixture image $M \in \mathbb{R}^{3 \times H \times W}$ and a synchronized event voxel grid $V \in \mathbb{R}^{B \times H \times W}$,
-
-$$\hat{R} = \mathcal{R}(M, V), \qquad \hat{T} = \mathcal{T}(M, V, \hat{R})$$
+The task is formulated as a two-stage estimation problem: given a mixture image $M \in \mathbb{R}^{3 \times H \times W}$ and a synchronized event voxel grid $V \in \mathbb{R}^{B \times H \times W}$, the objective is to first estimate $$\hat{R} = \mathcal{R}(M, V), and finally to restore the background \hat{T} = \mathcal{T}(M, V, \hat{R})$$
 
 ### Key Components
 
@@ -121,8 +119,8 @@ If you plan to generate new synthetic data from scratch, clone and setup DVS-Vol
 
 We provide pre-trained models and the real-world E-SIRR dataset (with both raw event stream and already processed data into voxel grids). 
 
-*   **Pre-trained Checkpoints:** [Download from Google Drive (https://drive.google.com/drive/folders/1dhmRONzg__mRf-sXMtJpC-6jQ6-J_Gd3?usp=sharing)]
-*   **ER-100 (Real-World Benchmark):** [Download from Google Drive (https://drive.google.com/drive/folders/120DMutAfjfOBnrXHZoiqugadrrg2xkgP?usp=drive_link)]
+*   **Pre-trained Checkpoints:** [Download from Google Drive] (https://drive.google.com/drive/folders/1dhmRONzg__mRf-sXMtJpC-6jQ6-J_Gd3?usp=sharing)
+*   **ER-100 (Real-World Benchmark):** [Download from Google Drive] (https://drive.google.com/drive/folders/120DMutAfjfOBnrXHZoiqugadrrg2xkgP?usp=drive_link)
 
 Once downloaded, place the checkpoints in the `./checkpoints/` directory and extract the datasets into your `./data/` folder following the structure detailed above.
 
