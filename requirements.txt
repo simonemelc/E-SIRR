@@ -1,0 +1,10 @@
+numpy<2.0
+scipy
+opencv-python
+scikit-image
+pandas
+matplotlib
+seaborn
+tqdm
+tensorboard
+lpips
