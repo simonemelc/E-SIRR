@@ -37,11 +37,7 @@ The task is formulated as a two-stage estimation problem: given a mixture image 
 
 * **Event Voxel Grid:** events falling within a symmetric temporal window around the frame timestamp are converted into a fixed-size $B$-bin voxel grid via a triangular temporal kernel (Eq. 5 of the paper).
 * **Stage 1 — Reflection Estimation Network:** a dual-branch encoder (RGB + event, 4 scales, Residual Blocks + Group Normalization) extracts multi-scale features $\{f_j^M\}$, $\{f_j^V\}$. Before entering the event encoder, the raw voxel grid is first processed by a **Receptive Field Block (RFB)** — three parallel dilated convolutions (rates 1, 2, 3) concatenated and fused via 1×1 conv — to expand the receptive field prior to downsampling.
-* **Event-Driven Feature Fusion (EFF):** at every scale $j$, a spatial gating mask $W_j$ (modulated by an **Event Confidence Map** $C_j$, computed as the max absolute voxel intensity across temporal bins) dynamically balances RGB and event features:
-
-$$\hat{H}_j = \big[(1-W_j) \odot f_j^M + W_j \odot f_j^V \,;\, H_{j-1}\big]$$
-
-  letting the network discard the event contribution whenever $V$ is uninformative. A U-Net style decoder then predicts the intermediate reflection estimate $\hat{R}$.
+* **Event-Driven Feature Fusion (EFF):** at every scale $j$, a spatial gating mask $W_j$ (modulated by an **Event Confidence Map** $C_j$, computed as the max absolute voxel intensity across temporal bins) dynamically balances RGB and event features, letting the network discard the event contribution whenever $V$ is uninformative. A U-Net style decoder then predicts the intermediate reflection estimate $\hat{R}$.
 * **Stage 2 — Background Restoration Network:** $M$ and $\hat{R}$ are concatenated (6 channels) and processed by a second residual encoder. **Cross-stage connections** re-inject the fused features $\{H_j\}$ from Stage 1 (through a zero-initialized 1×1 conv) to prevent high-frequency detail loss. The decoder predicts a residual $\Delta T$, added to $M$ to recover the clean transmission $\hat{T}$.
 * **Composite Objective:** pixel (L1) + perceptual (VGG-19, relu1_2/relu2_2) losses supervise both stages, plus a multi-scale **exclusion loss** (3 pyramid levels) that explicitly discourages structural overlap between $\hat{T}$ and $\hat{R}$:
 
