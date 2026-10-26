@@ -24,7 +24,7 @@ Eurecom Research Center, Data Science Department, Biot, France
 
 ---
 
-## The Framework
+### The Framework
 
 <p align="center">
   <img src="ESIRR_pipeline.png" alt="Framework Overview" width="100%">
@@ -47,8 +47,11 @@ $$\mathcal{L}_{total} = \mathcal{L}_R(\hat{R}, R) + \mathcal{L}_T(\hat{T}, T) + 
   with $\omega_\ell = 1.0$, $\omega_\phi = 0.1$, $\omega_e = 0.02$.
 
 ---
-<div align="center">
+
 ### Visual Results
+
+
+<div align="center">
 Qualitative comparison on synthetic data from SIR²⁺. From left to right: Input, Event Voxel, DSRNet, Zhu et al., RDNet, E-SIRR (Ours), and Ground Truth.
 <p align="center">
   <img src="visual_synth.png" alt="Qualitative comparison on synthetic data from SIR²⁺. From left to right: Input, Event Voxel, DSRNet, Zhu et al., RDNet, E-SIRR (Ours), and Ground Truth."
