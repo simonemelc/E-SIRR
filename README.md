@@ -48,6 +48,19 @@ $$\mathcal{L}_{total} = \mathcal{L}_R(\hat{R}, R) + \mathcal{L}_T(\hat{T}, T) + 
 
 ---
 
+### Visual Results
+<p align="center">
+  <img src="teaser_esirr.png" alt="Qualitative comparison on synthetic data from SIR$^{2+}$.
+    From left to right: Input, Event Voxel, $\text{DSRNet}$, $\text{Zhu \etal}$, $\text{RDNet}$, $\text{E-SIRR}$ (Ours), and Ground Truth."
+    width="100%">
+</p>
+
+<p align="center">
+  <img src="teaser_esirr.png" alt="Qualitative comparison on real-world data from \textit{ER-100}.
+    From left to right: Input, Event Voxel, $\text{DSRNet}$, $\text{Zhu \etal}$, $\text{RDNet}$, $\text{E-SIRR}$ (Ours), and Ground Truth."
+    width="100%">
+</p>
+
 ## Dataset Preparation
 Training requires triplets of mixture $M$, event voxel grid $V$, and ground-truth transmission/reflection layers $T$, $R$. The model is trained on a **large-scale synthetic dataset** built from COCO and evaluated both cross-dataset on **SIR²⁺** and on a **real-world event-camera benchmark (ER-100)** collected by the authors.
 
