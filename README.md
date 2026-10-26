@@ -63,7 +63,8 @@ Qualitative comparison on real-world data from ER-100. From left to right: Input
     From left to right: Input, Event Voxel, $\text{DSRNet}$, $\text{Zhu \etal}$, $\text{RDNet}$, $\text{E-SIRR}$ (Ours), and Ground Truth."
     width="100%">
 </p>
-<div align="center">
+
+</div>
 
 ## Dataset Preparation
 Training requires triplets of mixture $M$, event voxel grid $V$, and ground-truth transmission/reflection layers $T$, $R$. The model is trained on a **large-scale synthetic dataset** built from COCO and evaluated both cross-dataset on **SIR²⁺** and on a **real-world event-camera benchmark (ER-100)** collected by the authors.
