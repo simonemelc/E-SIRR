@@ -20,8 +20,6 @@ Eurecom Research Center, Data Science Department, Biot, France
 [![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 [![Framework](https://img.shields.io/badge/Framework-PyTorch-red)](https://pytorch.org/)
 
-[Paper](LINK_AL_PAPER_SE_DIVERSO_DA_ARXIV)
-
 </div>
 
 ---
