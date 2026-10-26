@@ -51,16 +51,14 @@ $$\mathcal{L}_{total} = \mathcal{L}_R(\hat{R}, R) + \mathcal{L}_T(\hat{T}, T) + 
 ### Visual Results
 Qualitative comparison on synthetic data from SIR²⁺. From left to right: Input, Event Voxel, DSRNet, Zhu et al., RDNet, E-SIRR (Ours), and Ground Truth.
 <p align="center">
-  <img src="visual_synth" alt="Qualitative comparison on synthetic data from SIR$^{2+}$.
-    From left to right: Input, Event Voxel, $\text{DSRNet}$, $\text{Zhu \etal}$, $\text{RDNet}$, $\text{E-SIRR}$ (Ours), and Ground Truth."
+  <img src="visual_synth.png" alt="Qualitative comparison on synthetic data from SIR²⁺. From left to right: Input, Event Voxel, DSRNet, Zhu et al., RDNet, E-SIRR (Ours), and Ground Truth."
     width="100%">
 </p>
 
 
 Qualitative comparison on real-world data from ER-100. From left to right: Input, Event Voxel, DSRNet, Zhu et al., RDNet, E-SIRR (Ours), and Ground Truth.
 <p align="center">
-  <img src="visual_real" alt="Qualitative comparison on real-world data from \textit{ER-100}.
-    From left to right: Input, Event Voxel, $\text{DSRNet}$, $\text{Zhu \etal}$, $\text{RDNet}$, $\text{E-SIRR}$ (Ours), and Ground Truth."
+  <img src="visual_real.png" alt="Qualitative comparison on real-world data from ER-100. From left to right: Input, Event Voxel, DSRNet, Zhu et al., RDNet, E-SIRR (Ours), and Ground Truth."
     width="100%">
 </p>
 
