@@ -47,19 +47,23 @@ $$\mathcal{L}_{total} = \mathcal{L}_R(\hat{R}, R) + \mathcal{L}_T(\hat{T}, T) + 
   with $\omega_\ell = 1.0$, $\omega_\phi = 0.1$, $\omega_e = 0.02$.
 
 ---
-
+<div align="center">
 ### Visual Results
+Qualitative comparison on synthetic data from SIR²⁺. From left to right: Input, Event Voxel, DSRNet, Zhu et al., RDNet, E-SIRR (Ours), and Ground Truth.
 <p align="center">
-  <img src="teaser_esirr.png" alt="Qualitative comparison on synthetic data from SIR$^{2+}$.
+  <img src="visual_synth" alt="Qualitative comparison on synthetic data from SIR$^{2+}$.
     From left to right: Input, Event Voxel, $\text{DSRNet}$, $\text{Zhu \etal}$, $\text{RDNet}$, $\text{E-SIRR}$ (Ours), and Ground Truth."
     width="100%">
 </p>
 
+
+Qualitative comparison on real-world data from ER-100. From left to right: Input, Event Voxel, DSRNet, Zhu et al., RDNet, E-SIRR (Ours), and Ground Truth.
 <p align="center">
-  <img src="teaser_esirr.png" alt="Qualitative comparison on real-world data from \textit{ER-100}.
+  <img src="visual_real" alt="Qualitative comparison on real-world data from \textit{ER-100}.
     From left to right: Input, Event Voxel, $\text{DSRNet}$, $\text{Zhu \etal}$, $\text{RDNet}$, $\text{E-SIRR}$ (Ours), and Ground Truth."
     width="100%">
 </p>
+<div align="center">
 
 ## Dataset Preparation
 Training requires triplets of mixture $M$, event voxel grid $V$, and ground-truth transmission/reflection layers $T$, $R$. The model is trained on a **large-scale synthetic dataset** built from COCO and evaluated both cross-dataset on **SIR²⁺** and on a **real-world event-camera benchmark (ER-100)** collected by the authors.
